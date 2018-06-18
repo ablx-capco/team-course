@@ -22,9 +22,21 @@ repositories {
      mavenCentral()
 }
 
+repositories {
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
+}
+
 bootJar {
     baseName = 'digitalengineeringcourse'
     version =  '0.1.0'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RC1'
+	}
 }
 
 dependencies {
@@ -39,6 +51,7 @@ dependencies {
 	compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.8'
  	compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8'
  	compile("org.springframework.kafka:spring-kafka")
+ 	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
 	testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 

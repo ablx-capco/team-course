@@ -9,13 +9,23 @@ import java.util.List;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.capco.digital.engineering.AbstractTest;
 
+@ComponentScan({ "com.capco.digital.engineering.user" })
+@WebAppConfiguration
 public class UserControllerTest extends AbstractTest {
 
 	@InjectMocks
@@ -26,6 +36,22 @@ public class UserControllerTest extends AbstractTest {
 
 	@Mock
 	private KafkaTemplate<String, String> kafkaTemplate;
+
+	@Autowired
+	private WebApplicationContext wac;
+
+	MockMvc mockMvc;
+
+	@BeforeTest
+	public void before() {
+		MockitoAnnotations.initMocks(this);
+
+		// this.mockMvc =
+		// MockMvcBuilders.webAppContextSetup(this.wac).dispatchOptions(true).build();
+
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+
+	}
 
 	@Test
 	public void testGetUsers() {
